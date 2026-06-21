@@ -1,0 +1,64 @@
+{
+  "id": "/",
+  "name": "Ballon BrainPop",
+  "short_name": "BrainPop",
+
+  "description": "A fun educational arcade game where players solve math challenges, pop balloons, complete missions, unlock rewards, and level up their brain power.",
+
+  "lang": "en",
+
+  "start_url": "/",
+
+  "scope": "/",
+
+  "display": "standalone",
+
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+
+  "orientation": "portrait",
+
+  "background_color": "#0f172a",
+
+  "theme_color": "#6366f1",
+
+  "categories": [
+    "education",
+    "games",
+    "kids",
+    "productivity"
+  ],
+
+  
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+
+  "shortcuts": [
+    {
+      "name": "Play Game",
+      "url": "/?action=play"
+    },
+
+    {
+      "name": "Daily Reward",
+      "url": "/?action=daily"
+    },
+
+    {
+      "name": "Missions",
+      "url": "/?action=missions"
+    }
+  ]
+}

@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
+  <meta name="theme-color" content="#05001a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>BrainPop — Math Balloon Game</title>
+  <meta name="description" content="Pop math balloons! Solve equations to burst balloons before they escape. Train your brain with BrainPop." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/ui.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+
+  <!-- Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5464279130726813" crossorigin="anonymous"></script>
+
+  <!-- Offline -->
+   <link rel="shortcut icon" href="icon-192.png" type="image/png">
+   <link rel="manifest" href="manifest.json">
+
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="BrainPop">
+</head>
+<body class="theme-dark">
+
+<!-- ════════════════════════════════
+     LOADING SCREEN
+════════════════════════════════ -->
+<div id="screen-loading" class="screen active">
+  <div class="loading-logo">
+    <div class="loading-balloon-ring">
+      <div class="lb lb1">🎈</div>
+      <div class="lb lb2">🎈</div>
+      <div class="lb lb3">🎈</div>
+    </div>
+    <h1 class="logo-text">BrainPop</h1>
+    <p class="logo-sub">Math Balloon Challenge</p>
+  </div>
+  <div class="loading-bar-wrap">
+    <div class="loading-bar" id="loadingBar"></div>
+    <div class="loading-bar-glow" id="loadingBarGlow"></div>
+  </div>
+  <p class="loading-hint" id="loadingHint">Loading balloons…</p>
+</div>
+
+<!-- ════════════════════════════════
+     HOME SCREEN
+════════════════════════════════ -->
+<div id="screen-home" class="screen">
+  <div class="home-header">
+    <div class="coin-display">
+      <span class="coin-icon">🪙</span>
+      <span id="homeCoins">0</span>
+    </div>
+    <div class="home-level-badge" id="homeLevelBadge">LV <span id="homeLvl">1</span></div>
+    <button class="btn-icon-round" id="btnSettings" title="Settings">⚙️</button>
+  </div>
+
+  <div class="home-hero">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-balloons">
+      <div class="deco-balloon b1">🎈</div>
+      <div class="deco-balloon b2">🎈</div>
+      <div class="deco-balloon b3">🎈</div>
+    </div>
+    <h1 class="hero-title">BrainPop</h1>
+    <p class="hero-sub">Pop balloons · Train your brain</p>
+    <div class="high-score-badge">
+      <span>🏆</span><span id="homeHighScore">0</span>
+      <span class="hs-sep">·</span>
+      <span>⭐</span><span id="homeXP">0 XP</span>
+    </div>
+  </div>
+
+  <div class="home-actions">
+    <button class="btn-primary btn-play" id="btnPlay">
+      <span class="btn-play-icon">▶</span> Play Now
+    </button>
+    <div class="home-grid">
+      <button class="home-card" id="btnShop">
+        <span class="card-icon">🛍️</span>
+        <span class="card-label">Shop</span>
+      </button>
+      <button class="home-card" id="btnMissions">
+        <span class="card-icon">🎯</span>
+        <span class="card-label">Missions</span>
+      </button>
+      <button class="home-card" id="btnDailyReward">
+        <span class="card-icon">🎁</span>
+        <span class="card-label">Daily</span>
+        <span class="badge-dot" id="dailyDot"></span>
+      </button>
+      <button class="home-card" id="btnAchievements">
+        <span class="card-icon">🏅</span>
+        <span class="card-label">Awards</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DIFFICULTY SELECT SCREEN
+════════════════════════════════ -->
+<div id="screen-difficulty" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="diffBack">⬅️</button>
+    <h2>Choose Mode</h2>
+  </div>
+
+  <!-- Mode selector (Normal / Time Attack) -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="normal">🎈 Normal</button>
+    <button class="mode-tab" data-mode="timeattack">⏱ Time Attack</button>
+  </div>
+
+  <div class="difficulty-cards" id="difficultyCards">
+    <div class="diff-card" data-diff="easy">
+      <div class="diff-left">
+        <span class="diff-icon">🌱</span>
+        <div>
+          <h3>Easy</h3>
+          <p>Simple addition & subtraction. Slow balloons.</p>
+        </div>
+      </div>
+      <span class="diff-reward">×1</span>
+    </div>
+    <div class="diff-card" data-diff="medium">
+      <div class="diff-left">
+        <span class="diff-icon">🔥</span>
+        <div>
+          <h3>Medium</h3>
+          <p>Mixed operations. Moderate speed.</p>
+        </div>
+      </div>
+      <span class="diff-reward">×2</span>
+    </div>
+    <div class="diff-card selected" data-diff="hard">
+      <div class="diff-left">
+        <span class="diff-icon">⚡</span>
+        <div>
+          <h3>Hard</h3>
+          <p>Larger numbers. Fast balloons.</p>
+        </div>
+      </div>
+      <span class="diff-reward">×3</span>
+    </div>
+    <div class="diff-card" data-diff="genius">
+      <div class="diff-left">
+        <span class="diff-icon">🧠</span>
+        <div>
+          <h3>Genius</h3>
+          <p>Complex mixed. Extreme speed.</p>
+        </div>
+      </div>
+      <span class="diff-reward">×5</span>
+    </div>
+  </div>
+
+  <div class="math-types">
+    <h3>Math Type</h3>
+    <div class="math-type-grid">
+      <button class="math-type-btn active" data-type="mixed">Mixed</button>
+      <button class="math-type-btn" data-type="add">+ Add</button>
+      <button class="math-type-btn" data-type="sub">− Sub</button>
+      <button class="math-type-btn" data-type="mul">× Mul</button>
+      <button class="math-type-btn" data-type="div">÷ Div</button>
+    </div>
+  </div>
+
+  <button class="btn-primary btn-start-game" id="btnStartGame">Start Game ▶</button>
+</div>
+
+<!-- ════════════════════════════════
+     GAME SCREEN
+════════════════════════════════ -->
+<div id="screen-game" class="screen">
+
+  <!-- ════════════════════════════════
+     MOBILE NUMPAD OVERLAY
+════════════════════════════════ -->
+<div id="numpadOverlay" class="numpad-overlay hidden">
+  <div class="numpad-grid">
+    <button class="np-btn" data-val="7">7</button>
+    <button class="np-btn" data-val="8">8</button>
+    <button class="np-btn" data-val="9">9</button>
+    <button class="np-btn" data-val="4">4</button>
+    <button class="np-btn" data-val="5">5</button>
+    <button class="np-btn" data-val="6">6</button>
+    <button class="np-btn" data-val="1">1</button>
+    <button class="np-btn" data-val="2">2</button>
+    <button class="np-btn" data-val="3">3</button>
+    <button class="np-btn np-neg" data-val="-">±</button>
+    <button class="np-btn" data-val="0">0</button>
+    <button class="np-btn np-del" data-val="del">⌫</button>
+  </div>
+  <div class="numpad-actions">
+    <button class="np-btn np-clear" id="npClear">CLR</button>
+    <button class="np-btn np-submit" id="npSubmit">✓ OK</button>
+  </div>
+</div>
+
+  <!-- Top HUD -->
+  <div id="topBar">
+    <div class="top-item">
+      <span class="coin-icon-sm">🪙</span>
+      <span id="gameCoins">0</span>
+    </div>
+    <div class="top-center">
+      <div class="top-score-wrap">
+        <span id="gameScore" class="top-score">0</span>
+        <span class="score-label">pts</span>
+      </div>
+      <div id="xpBarWrap">
+        <div id="xpBar"><div id="xpFill"></div></div>
+        <span id="xpLabel" class="xp-label">LV1</span>
+      </div>
+    </div>
+    <div class="top-right-cluster">
+      <div id="waveDisplay" class="wave-display">W<span id="waveCount">1</span></div>
+      <div id="timerDisplay" class="timer-display hidden">⏱<span id="timerCount">60</span></div>
+      <div id="comboDisplay" class="top-combo hidden">
+        ×<span id="comboText">1</span>
+      </div>
+      <button class="btn-icon-sm" id="btnPause">⏸</button>
+    </div>
+  </div>
+
+  <!-- Game area with canvas background -->
+  <div id="gameArea">
+    <canvas id="bgCanvas"></canvas>
+    <!-- Balloons spawn here as DOM elements -->
+  </div>
+
+  <!-- Lives bar -->
+  <div id="livesBar">
+    <span class="life" id="life1">❤️</span>
+    <span class="life" id="life2">❤️</span>
+    <span class="life" id="life3">❤️</span>
+  </div>
+
+  <!-- Bottom panel (FIXED BUG: right was 3500px) -->
+  <div id="bottomPanel">
+    <div class="powers-row flex gap-8" id="powersRow">
+      <button class="power-btn" data-power="freeze" title="Freeze all balloons">❄️<span class="power-count" id="pFreeze">3</span></button>
+      <button class="power-btn" data-power="bomb"   title="Pop 3 balloons">💣<span class="power-count" id="pBomb">2</span></button>
+      <button class="power-btn" data-power="hint"   title="Reveal answer">💡<span class="power-count" id="pHint">3</span></button>
+      <button class="power-btn" data-power="double" title="2× coins (30s)">💰<span class="power-count" id="pDouble">1</span></button>
+      <button class="power-btn" data-power="life"   title="Extra life">💗<span class="power-count" id="pLife">1</span></button>
+    </div>
+    <div class="answer-row">
+      <input id="inputBox" type="number" inputmode="numeric" placeholder="Answer?" autocomplete="off" />
+      <button id="btnNumpad" class="btn-numpad-toggle" title="Number pad">🔢</button>
+      <button id="btnSubmit" class="btn-submit">✓</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- ════════════════════════════════
+     WAVE ANNOUNCEMENT OVERLAY
+════════════════════════════════ -->
+<div id="waveOverlay" class="wave-overlay hidden">
+  <div class="wave-inner">
+    <div class="wave-eyebrow">INCOMING</div>
+    <div class="wave-title">WAVE <span id="waveNumber">2</span></div>
+    <div class="wave-sub" id="waveSub">Speed is increasing!</div>
+    <div class="wave-special" id="waveSpecial"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     LEVEL UP OVERLAY
+════════════════════════════════ -->
+<div id="levelUpOverlay" class="levelup-overlay hidden">
+  <div class="levelup-inner">
+    <div class="levelup-rays"></div>
+    <div class="levelup-label">LEVEL UP!</div>
+    <div class="levelup-num" id="levelUpNum">2</div>
+    <div class="levelup-bonus" id="levelUpBonus">+50 🪙 Bonus!</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     TUTORIAL OVERLAY
+════════════════════════════════ -->
+<div id="tutorialOverlay" class="tutorial-overlay hidden">
+  <div class="tutorial-card" id="tutorialCard">
+    <div class="tutorial-step-dots" id="tutorialDots"></div>
+    <div class="tutorial-icon" id="tutorialIcon">🎈</div>
+    <h3 class="tutorial-title" id="tutorialTitle">Welcome to BrainPop!</h3>
+    <p class="tutorial-text" id="tutorialText">Balloons fall from the sky with math problems. Solve them to pop the balloons!</p>
+    <div class="tutorial-actions">
+      <button class="btn-secondary btn-tut-skip" id="tutSkip">Skip</button>
+      <button class="btn-primary btn-tut-next" id="tutNext">Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     PAUSE SCREEN
+════════════════════════════════ -->
+<div id="screen-pause" class="screen overlay-screen">
+  <div class="overlay-card">
+    <div class="pause-icon">⏸</div>
+    <h2>Paused</h2>
+    <div class="pause-stats">
+      <div class="ps-row"><span>Score</span><strong id="pauseScore">0</strong></div>
+      <div class="ps-row"><span>Wave</span><strong id="pauseWave">1</strong></div>
+    </div>
+    <button class="btn-primary" id="btnResume">▶ Resume</button>
+    <button class="btn-secondary" id="btnQuit">Quit to Menu</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     GAME OVER SCREEN
+════════════════════════════════ -->
+<div id="screen-gameover" class="screen">
+  <div class="gameover-content">
+    <div class="gameover-grade-ring">
+      <div class="gameover-grade" id="gameoverGrade">B</div>
+    </div>
+    <h2 class="gameover-title" id="gameoverTitle">Game Over</h2>
+
+    <div class="result-card">
+      <div class="result-row"><span>Score</span><strong id="goScore">0</strong></div>
+      <div class="result-row"><span>Best Score</span><strong id="goHigh">0</strong></div>
+      <div class="result-row"><span>Wave Reached</span><strong id="goWave">1</strong></div>
+      <div class="result-row"><span>Coins Earned</span><strong id="goCoins">0</strong></div>
+      <div class="result-row"><span>Best Combo</span><strong id="goCombo">×0</strong></div>
+      <div class="result-row"><span>Accuracy</span><strong id="goAccuracy">0%</strong></div>
+    </div>
+
+    <!-- Newly completed missions -->
+    <div class="mission-summary" id="missionSummary"></div>
+
+    <button class="btn-primary" id="btnRestart">🔄 Play Again</button>
+    <button class="btn-secondary" id="btnGoHome">🏠 Home</button>
+
+    <!-- AdSense Banner — Game Over -->
+    <div class="ad-slot-wrapper">
+      <ins class="adsbygoogle ad-banner-ins"
+           data-ad-client="ca-pub-5464279130726813"
+           data-ad-slot="REPLACE_GAMEOVER_BANNER_SLOT"
+           data-ad-format="banner"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     SHOP SCREEN
+════════════════════════════════ -->
+<div id="screen-shop" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="shopBack">⬅️</button>
+    <h2>🛍️ Shop</h2>
+    <div class="coin-display">🪙 <span id="shopCoins">0</span></div>
+  </div>
+  <div class="shop-tabs">
+    <button class="shop-tab active" data-tab="skins">Skins</button>
+    <button class="shop-tab" data-tab="backgrounds">Themes</button>
+    <button class="shop-tab" data-tab="powerups">Powers</button>
+  </div>
+  <div class="shop-grid" id="shopGrid"></div>
+
+  <!-- AdSense Banner — Shop -->
+  <div class="ad-slot-wrapper">
+    <ins class="adsbygoogle ad-banner-ins"
+         data-ad-client="ca-pub-5464279130726813"
+         data-ad-slot="REPLACE_SHOP_BANNER_SLOT"
+         data-ad-format="banner"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     MISSIONS SCREEN
+════════════════════════════════ -->
+<div id="screen-missions" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="missionsBack">⬅️</button>
+    <h2>🎯 Daily Missions</h2>
+  </div>
+  <div class="missions-list" id="missionsList"></div>
+</div>
+
+<!-- ════════════════════════════════
+     DAILY REWARD SCREEN
+════════════════════════════════ -->
+<div id="screen-daily" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="dailyBack">⬅️</button>
+    <h2>🎁 Daily Reward</h2>
+  </div>
+  <p class="daily-subtitle">Log in every day to build your streak!</p>
+  <div class="daily-grid" id="dailyGrid"></div>
+  <button class="btn-primary btn-claim-wide" id="btnClaimDaily">Claim Today's Reward</button>
+  <p class="streak-info" id="streakInfo">🔥 Streak: 0 days</p>
+</div>
+
+<!-- ════════════════════════════════
+     ACHIEVEMENTS SCREEN
+════════════════════════════════ -->
+<div id="screen-achievements" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="achievementsBack">⬅️</button>
+    <h2>🏅 Achievements</h2>
+  </div>
+  <div class="achievements-list" id="achievementsList"></div>
+</div>
+
+<!-- ════════════════════════════════
+     SETTINGS SCREEN
+════════════════════════════════ -->
+<div id="screen-settings" class="screen">
+  <div class="panel-header">
+    <button class="btn-back" id="settingsBack">⬅️</button>
+    <h2>⚙️ Settings</h2>
+  </div>
+  <div class="settings-list">
+    <div class="setting-row">
+      <div class="setting-info"><span>Sound Effects</span><small>Pops, coins & combos</small></div>
+      <label class="toggle"><input type="checkbox" id="sfxToggle" checked><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><span>Music</span><small>Background melody</small></div>
+      <label class="toggle"><input type="checkbox" id="musicToggle"><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><span>Dark Mode</span><small>Cosmic dark theme</small></div>
+      <label class="toggle"><input type="checkbox" id="darkToggle" checked><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><span>Vibration</span><small>Haptic feedback</small></div>
+      <label class="toggle"><input type="checkbox" id="vibToggle" checked><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><span>Number Pad</span><small>Use on-screen keypad</small></div>
+      <label class="toggle"><input type="checkbox" id="numpadToggle"><span class="slider"></span></label>
+    </div>
+    <div class="setting-row">
+      <div class="setting-info"><span>Volume</span><small id="volLabel">70%</small></div>
+      <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider" />
+    </div>
+  </div>
+  <div class="settings-footer">
+    <button class="btn-danger" id="btnResetProgress">⚠️ Reset All Progress</button>
+    <p class="version-text">BrainPop v2.0 · Made with 🎈</p>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     FLOATING OVERLAYS
+════════════════════════════════ -->
+<div id="toast" class="toast"></div>
+<div id="coinBurst" class="coin-burst-container"></div>
+<div id="comboPopup" class="combo-popup"></div>
+
+<!-- Ad Video Overlay (rewarded / interstitial placeholder) -->
+<div id="adOverlay" class="ad-overlay" style="display:none">
+  <div class="ad-overlay-card">
+    <div class="ad-overlay-header">📺 Advertisement</div>
+    <div class="ad-sim-bar"><div class="ad-sim-fill" id="adSimFill"></div></div>
+    <p id="adOverlayMsg" class="ad-msg">Ad playing…</p>
+    <button class="btn-secondary" id="adCloseBtn" style="display:none"
+            onclick="window._adCloseCallback && window._adCloseCallback()">✕ Collect Reward</button>
+    <p class="ad-disclaimer">[ Replace with your AdMob/AdSense rewarded unit ]</p>
+  </div>
+</div>
+
+<!-- JS (load order matters) -->
+<script src="js/storage.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/ads.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/missions.js"></script>
+<script src="js/rewards.js"></script>
+<script src="js/powers.js"></script>
+<script src="js/balloons.js"></script>
+<script src="js/game.js"></script>
+
+<script>
+
+if ('serviceWorker' in navigator) {
+
+window.addEventListener('load', () => {
+
+navigator.serviceWorker.register('service-worker.js');
+
+});
+
+}
+
+</script>
+</body>
+</html>

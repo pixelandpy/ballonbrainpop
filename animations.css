@@ -1,0 +1,486 @@
+/* ════════════════════════════════════════
+   BRAINPOP v2 — animations.css
+   Keyframes, balloon skins, particles,
+   special balloon effects.
+════════════════════════════════════════ */
+
+/* ══════════════════════════
+   CORE KEYFRAMES
+══════════════════════════ */
+
+@keyframes floatBounce {
+  0%, 100% { transform: translateY(0px) rotate(-3deg); }
+  50%       { transform: translateY(-14px) rotate(3deg); }
+}
+
+@keyframes popIn {
+  0%   { transform: scale(0) rotate(-12deg); opacity: 0; }
+  65%  { transform: scale(1.18) rotate(4deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes popOut {
+  0%   { transform: scale(1); opacity: 1; }
+  35%  { transform: scale(1.45); opacity: 0.7; }
+  100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOutDown {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(22px); }
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,208,72,0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(255,208,72,0); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  15%, 55%, 90% { transform: translateX(-7px); }
+  35%, 75% { transform: translateX(7px); }
+}
+
+@keyframes glow {
+  0%, 100% { filter: brightness(1); }
+  50%       { filter: brightness(1.45) drop-shadow(0 0 12px var(--clr-accent)); }
+}
+
+@keyframes coinFly {
+  0%   { transform: translate(0,0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--tx),var(--ty)) scale(0.3); opacity: 0; }
+}
+
+@keyframes floatText {
+  0%   { transform: translateY(0) translateX(-50%); opacity: 1; }
+  100% { transform: translateY(-65px) translateX(-50%); opacity: 0; }
+}
+
+@keyframes comboScale {
+  0%   { transform: translateX(-50%) scale(0.3) rotate(-8deg); opacity: 0; }
+  55%  { transform: translateX(-50%) scale(1.15) rotate(2deg); opacity: 1; }
+  100% { transform: translateX(-50%) scale(1) rotate(0deg); opacity: 1; }
+}
+
+@keyframes balloonWiggle {
+  0%, 100% { transform: rotate(0deg) scaleX(1); }
+  28%       { transform: rotate(-4deg) scaleX(0.97); }
+  72%       { transform: rotate(4deg) scaleX(1.03); }
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.05); }
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  18%       { transform: translate(-5px, 2px); }
+  38%       { transform: translate(5px, -3px); }
+  58%       { transform: translate(-4px, 3px); }
+  78%       { transform: translate(4px, -2px); }
+}
+
+@keyframes goldenShimmer {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes skullPulse {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(255,95,126,0.8)); }
+  50%       { filter: drop-shadow(0 0 15px rgba(255,95,126,0.4)) brightness(0.85); }
+}
+
+@keyframes bonusBounce {
+  0%, 100% { transform: scale(1) rotate(-5deg); }
+  50%       { transform: scale(1.1) rotate(5deg); }
+}
+
+@keyframes rainbowShift {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes spinRing {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes xpGain {
+  0%   { opacity: 1; transform: translateY(0) scale(1); }
+  60%  { opacity: 1; transform: translateY(-30px) scale(1.2); }
+  100% { opacity: 0; transform: translateY(-50px) scale(0.8); }
+}
+
+/* ══════════════════════════
+   BALLOON BASE STYLES
+══════════════════════════ */
+
+.balloon {
+  position: absolute;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  cursor: pointer;
+  user-select: none;
+  will-change: transform, top;
+  transition: transform 0.1s;
+  z-index: 5;
+  text-align: center;
+  padding: 2px;
+  word-break: break-word;
+}
+
+/* Balloon string */
+.balloon::after {
+  content: '';
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 24px;
+  background: rgba(255,255,255,0.35);
+  border-radius: 1px;
+}
+
+.balloon.wiggle {
+  animation: balloonWiggle 2.2s ease-in-out infinite;
+}
+
+/* ── Classic Skin ── */
+.balloon.skin-classic {
+  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.65), transparent 50%),
+              radial-gradient(circle at 62% 68%, rgba(0,0,0,0.2), transparent 42%),
+              var(--balloon-color, #ff6eb4);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.35), inset 0 -5px 10px rgba(0,0,0,0.18);
+  color: rgba(0,0,0,0.82);
+  text-shadow: 0 1px 2px rgba(255,255,255,0.4);
+}
+
+/* ── Neon Skin ── */
+.balloon.skin-neon {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.55), transparent 55%),
+              var(--balloon-color, #00ffcc);
+  box-shadow: 0 0 22px var(--balloon-color, #00ffcc),
+              0 0 50px rgba(0,255,204,0.25),
+              inset 0 -5px 10px rgba(0,0,0,0.2);
+  color: rgba(0,0,0,0.88);
+  font-size: 0.73rem;
+}
+
+/* ── Fire Skin ── */
+.balloon.skin-fire {
+  background: radial-gradient(circle at 35% 30%, rgba(255,220,100,0.85), transparent 42%),
+              radial-gradient(circle at 65% 72%, rgba(200,50,0,0.65), transparent 52%),
+              linear-gradient(170deg, #ff9900, #ff4500, #cc0000);
+  box-shadow: 0 0 28px rgba(255,120,0,0.55), 0 6px 20px rgba(0,0,0,0.45);
+  color: rgba(255,245,210,0.96);
+}
+
+/* ── Galaxy Skin ── */
+.balloon.skin-galaxy {
+  background: radial-gradient(circle at 35% 30%, rgba(200,150,255,0.55), transparent 48%),
+              radial-gradient(circle at 72% 76%, rgba(0,50,200,0.45), transparent 52%),
+              linear-gradient(135deg, #1a0050, #4a0090, #0030a0, #300070);
+  box-shadow: 0 0 24px rgba(100,50,255,0.55), 0 6px 20px rgba(0,0,0,0.55);
+  color: rgba(200,180,255,0.96);
+}
+
+/* ── Rainbow Skin ── */
+.balloon.skin-rainbow {
+  background: conic-gradient(from 180deg, #ff6eb4, #ff9900, #ffee00, #00cc88, #4488ff, #aa44ff, #ff6eb4);
+  box-shadow: 0 0 22px rgba(255,255,255,0.35), 0 6px 20px rgba(0,0,0,0.3);
+  color: rgba(0,0,0,0.85);
+  animation: rainbowShift 3s linear infinite, balloonWiggle 2.2s ease-in-out infinite;
+}
+
+/* ── Cyber Skin ── */
+.balloon.skin-cyber {
+  background: radial-gradient(circle at 35% 30%, rgba(0,255,200,0.5), transparent 50%),
+              linear-gradient(135deg, #001a2e, #003050, #001a2e);
+  box-shadow: 0 0 20px rgba(0,229,255,0.5), inset 0 0 20px rgba(0,100,200,0.3);
+  color: #00e5ff;
+  border: 1px solid rgba(0,229,255,0.4);
+}
+
+/* ── Ice Skin ── */
+.balloon.skin-ice {
+  background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.85), transparent 48%),
+              radial-gradient(circle at 70% 75%, rgba(150,220,255,0.4), transparent 50%),
+              linear-gradient(160deg, #d6f3ff, #8fd9ff, #4fb8e8);
+  box-shadow: 0 0 22px rgba(140,220,255,0.55), inset 0 -5px 10px rgba(0,90,140,0.2);
+  color: rgba(8,40,60,0.9);
+  border: 1px solid rgba(255,255,255,0.5);
+  text-shadow: 0 1px 3px rgba(255,255,255,0.5);
+}
+
+/* ── Candy Skin ── */
+.balloon.skin-candy {
+  background: radial-gradient(circle at 30% 26%, rgba(255,255,255,0.7), transparent 45%),
+              repeating-conic-gradient(from 0deg, #ff5fa8 0deg 30deg, #ffe066 30deg 60deg);
+  background-size: 100% 100%, 70% 70%;
+  box-shadow: 0 0 20px rgba(255,95,168,0.5), 0 6px 18px rgba(0,0,0,0.3);
+  color: rgba(70,10,40,0.9);
+  border: 2px solid rgba(255,255,255,0.5);
+}
+
+/* ── Toxic Skin ── */
+.balloon.skin-toxic {
+  background: radial-gradient(circle at 35% 30%, rgba(220,255,120,0.6), transparent 48%),
+              radial-gradient(circle at 70% 72%, rgba(60,150,20,0.5), transparent 52%),
+              linear-gradient(150deg, #2e5400, #5a9c00, #c8ff00);
+  box-shadow: 0 0 24px rgba(170,255,0,0.55), inset 0 0 14px rgba(40,90,0,0.4);
+  color: rgba(20,40,0,0.92);
+  border: 1px solid rgba(200,255,0,0.5);
+}
+
+/* ── Royal Skin ── */
+.balloon.skin-royal {
+  background: radial-gradient(circle at 32% 28%, rgba(255,225,140,0.55), transparent 45%),
+              linear-gradient(150deg, #1a0033, #3d0066, #5e0099, #2a0050);
+  box-shadow: 0 0 24px rgba(180,80,255,0.5), 0 0 50px rgba(255,215,0,0.18);
+  color: #ffd700;
+  border: 1px solid rgba(255,215,0,0.55);
+  text-shadow: 0 0 6px rgba(255,215,0,0.5);
+}
+
+/* ══════════════════════════
+   SPECIAL BALLOON TYPES
+══════════════════════════ */
+
+/* Golden Balloon — 5× coins */
+.balloon.type-golden {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,220,0.9), transparent 45%),
+              radial-gradient(circle at 65% 70%, rgba(180,120,0,0.5), transparent 50%),
+              linear-gradient(135deg, #ffd700, #ffb300, #ffd700, #ffe066);
+  background-size: 200% 100%;
+  box-shadow: 0 0 28px rgba(255,215,0,0.7), 0 0 50px rgba(255,180,0,0.3);
+  color: rgba(80,40,0,0.95);
+  animation: goldenShimmer 2s linear infinite, balloonWiggle 2.2s ease-in-out infinite;
+  border: 2px solid rgba(255,215,0,0.8);
+  z-index: 7 !important;
+}
+
+.balloon.type-golden::before {
+  content: '★';
+  position: absolute;
+  top: -6px;
+  right: -2px;
+  font-size: 0.8rem;
+  color: #ffd700;
+  text-shadow: 0 0 8px #ffd700;
+  animation: breathe 1s ease-in-out infinite;
+}
+
+/* Skull Balloon — DON'T pop (lose life if you do) */
+.balloon.type-skull {
+  background: radial-gradient(circle at 35% 30%, rgba(255,150,150,0.3), transparent 50%),
+              linear-gradient(135deg, #1a0010, #3a0020, #200015);
+  box-shadow: 0 0 20px rgba(255,50,100,0.6), inset 0 0 12px rgba(255,0,50,0.3);
+  color: #ff5f7e;
+  border: 2px solid rgba(255,95,126,0.6);
+  animation: skullPulse 1.2s ease-in-out infinite;
+  z-index: 8 !important;
+}
+
+.balloon.type-skull .skull-badge {
+  position: absolute;
+  top: -8px;
+  left: -4px;
+  font-size: 0.9rem;
+  animation: skullPulse 0.8s ease-in-out infinite;
+}
+
+/* Lightning Balloon — score bonus */
+.balloon.type-lightning {
+  background: radial-gradient(circle at 35% 30%, rgba(255,255,150,0.6), transparent 45%),
+              linear-gradient(135deg, #1a1400, #2e2500, #1a1400);
+  box-shadow: 0 0 22px rgba(255,220,0,0.7), inset 0 0 12px rgba(255,200,0,0.3);
+  color: #ffdd00;
+  border: 2px solid rgba(255,220,0,0.7);
+  animation: bonusBounce 1s ease-in-out infinite;
+}
+
+/* Bonus Balloon — random powerup */
+.balloon.type-bonus {
+  background: radial-gradient(circle at 35% 30%, rgba(200,150,255,0.5), transparent 48%),
+              linear-gradient(135deg, #150030, #300060, #150030);
+  box-shadow: 0 0 22px rgba(180,100,255,0.6), inset 0 0 15px rgba(100,50,200,0.3);
+  color: #c878ff;
+  border: 2px solid rgba(180,100,255,0.6);
+  animation: bonusBounce 1.3s ease-in-out infinite, balloonWiggle 2.2s ease-in-out infinite;
+}
+
+/* ── Balloon States ── */
+.balloon.hint-highlight {
+  animation: breathe 0.5s ease-in-out infinite !important;
+  z-index: 10;
+  box-shadow: 0 0 35px var(--clr-accent), 0 0 70px rgba(124,95,247,0.4) !important;
+}
+
+.balloon.frozen {
+  filter: saturate(0.1) brightness(0.75) hue-rotate(175deg) !important;
+  animation-play-state: paused !important;
+}
+
+.balloon.popping {
+  animation: popOut 0.26s var(--ease) forwards !important;
+  pointer-events: none;
+}
+
+/* ══════════════════════════
+   POP PARTICLES
+══════════════════════════ */
+
+.pop-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.pop-star {
+  position: absolute;
+  font-size: 1rem;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ── Floating Score/XP Text ── */
+.float-text {
+  position: absolute;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  color: var(--clr-yellow);
+  pointer-events: none;
+  z-index: 100;
+  animation: floatText 0.85s var(--ease-out) forwards;
+  white-space: nowrap;
+  left: 50%;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+.float-text.xp-float {
+  color: var(--clr-accent2);
+  font-size: 0.85rem;
+  animation: xpGain 0.7s ease-out forwards;
+}
+
+/* ── Background Themes — Star Fields ── */
+body.bg-space #gameArea::before,
+body.bg-night #gameArea::before,
+body.bg-aurora #gameArea::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 8% 15%, white, transparent),
+    radial-gradient(1px 1px at 26% 55%, white, transparent),
+    radial-gradient(1px 1px at 48% 8%, white, transparent),
+    radial-gradient(1px 1px at 67% 38%, white, transparent),
+    radial-gradient(1px 1px at 83% 20%, white, transparent),
+    radial-gradient(1px 1px at 17% 78%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1.5px 1.5px at 42% 88%, rgba(180,180,255,0.8), transparent),
+    radial-gradient(1px 1px at 91% 68%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(1px 1px at 60% 72%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 35% 32%, rgba(200,180,255,0.8), transparent),
+    radial-gradient(1px 1px at 75% 85%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 5% 42%, rgba(255,255,255,0.7), transparent);
+  pointer-events: none;
+}
+
+/* ── Cyber Grid ── */
+body.bg-cyber #gameArea::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ── Ocean Bubbles ── */
+body.bg-ocean #gameArea::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(3px 3px at 12% 85%, rgba(180,230,255,0.35), transparent),
+    radial-gradient(2px 2px at 28% 70%, rgba(180,230,255,0.3), transparent),
+    radial-gradient(4px 4px at 45% 92%, rgba(180,230,255,0.3), transparent),
+    radial-gradient(2px 2px at 63% 78%, rgba(180,230,255,0.35), transparent),
+    radial-gradient(3px 3px at 80% 88%, rgba(180,230,255,0.3), transparent),
+    radial-gradient(2px 2px at 92% 65%, rgba(180,230,255,0.3), transparent);
+  pointer-events: none;
+}
+
+/* ── Screen Shake ── */
+.screen-shake {
+  animation: screenShake 0.32s ease-out !important;
+}
+
+/* ── Input Flash ── */
+.input-success {
+  border-color: var(--clr-green) !important;
+  box-shadow: 0 0 22px rgba(34,211,160,0.5) !important;
+  transition: border-color 0s, box-shadow 0s !important;
+}
+
+.input-error {
+  animation: shake 0.32s ease-out;
+  border-color: var(--clr-red) !important;
+  box-shadow: 0 0 18px rgba(255,95,126,0.45) !important;
+  transition: border-color 0s, box-shadow 0s !important;
+}
+
+/* ── Double Coins Border ── */
+#gameArea.double-coins {
+  box-shadow: inset 0 0 60px rgba(255,208,72,0.12);
+  border: 2px solid rgba(255,208,72,0.15);
+}
+
+/* ── Combo Popup ── */
+.combo-popup.show {
+  animation: comboScale 0.36s var(--ease) forwards;
+}
+
+/* ── XP Float ── */
+.xp-gain-text {
+  position: fixed;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 900;
+  color: var(--clr-accent2);
+  pointer-events: none;
+  z-index: 150;
+  animation: xpGain 0.8s ease-out forwards;
+  text-shadow: 0 0 10px rgba(0,229,255,0.6);
+}
+
+/* ── Lives Lost Animation ── */
+@keyframes lifeLost {
+  0%   { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(0.8); opacity: 0.2; }
+}
+
+.life.lost-anim {
+  animation: lifeLost 0.4s var(--ease) forwards;
+}
+
+/* ── Special Balloon Entry ── */
+.balloon.special-entry {
+  animation: popIn 0.35s var(--ease) forwards, balloonWiggle 2.2s ease-in-out 0.35s infinite;
+}
