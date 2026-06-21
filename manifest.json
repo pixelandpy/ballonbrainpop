@@ -7,9 +7,9 @@
 
   "lang": "en",
 
-  "start_url": "/index.html",
+  "start_url": "/ballonbrainpop",
 
-  "scope": "/",
+  "scope": "/ballonbrainpop",
 
   "display": "standalone",
 
