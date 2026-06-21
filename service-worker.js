@@ -6,15 +6,15 @@ const STATIC_ASSETS = [
 
 '/index.html',
 
-'/css/style.css',
+'/style.css',
 
 '/manifest.json',
 
-'/js/game.js',
+'/game.js',
 
-'/js/ui.js',
+'/ui.js',
 
-'/js/storage.js',
+'/storage.js',
 
 '/bg3.mp3'
 
